@@ -52,3 +52,7 @@ Mkfile.old
 dkms.conf
 
 build/*
+*.zip
+*.7z
+*.rar
+.cache/*

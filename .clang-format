@@ -12,5 +12,6 @@ ColumnLimit: '80'
 IndentWidth: '2'
 PointerAlignment: Right
 UseTab: Never
+SortIncludes: Never
 
 ...
