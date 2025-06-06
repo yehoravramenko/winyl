@@ -1,35 +1,32 @@
-#define OEMRESOURCE
-#include <GL/gl3w.h>
-
-#undef WIN32_LEAN_AND_MEAN
+#ifndef NDEBUG
 #define RGFW_DEBUG // Todo: delete on release!
+#endif
 #define RGFW_IMPLEMENTATION
 #include <RGFW.h>
 
-#include <cstdio>
+#include <stdio.h>
 
 int main(int, char **)
 {
   RGFW_window *win;
 
-  std::puts("winyl!");
+  RGFW_setGLHint(RGFW_glMajor, 4);
+  RGFW_setGLHint(RGFW_glMinor, 6);
+  RGFW_setGLHint(RGFW_glProfile, RGFW_glCore);
 
   win = RGFW_createWindow("winyl (Milestone 1)", RGFW_RECT(0, 0, 400, 500),
                           RGFW_windowCenter | RGFW_windowNoResize);
 
   if (win == nullptr)
   {
-    std::puts("Failed to create a window");
+    puts("Failed to create a window");
     return 1;
   }
 
-  RGFW_window_makeCurrent(win);
-
-  if (gl3wInit() != 0)
-  {
-    std::puts("Failed to initialize OpenGL");
-    return 1;
-  }
+#ifndef NDEBUG
+  auto gl_version = ::glGetString(GL_VERSION);
+  printf("%s\n", gl_version);
+#endif
 
   glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
 

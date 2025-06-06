@@ -1,14 +1,8 @@
 [
-  {
-    "directory": "D:\\aura\\winyl\\build",
-    "command": "\"cl\" \"-Iwinyl.exe.p\" \"-I.\" \"-I..\" \"-I..\\thirdparty\\RGFW\" \"-I..\\thirdparty\\gl3w\\include\" \"/MDd\" \"/nologo\" \"/showIncludes\" \"/utf-8\" \"/Zc:__cplusplus\" \"/W2\" \"/EHsc\" \"/Od\" \"/Zi\" \"/WX\" \"/Fdwinyl.exe.p\\src_winyl.cc.pdb\" /Fowinyl.exe.p/src_winyl.cc.obj \"/c\" ../src/winyl.cc",
-    "file": "../src/winyl.cc",
-    "output": "winyl.exe.p/src_winyl.cc.obj"
-  },
-  {
-    "directory": "D:\\aura\\winyl\\build",
-    "command": "\"cl\" \"-Iwinyl.exe.p\" \"-I.\" \"-I..\" \"-I..\\thirdparty\\RGFW\" \"-I..\\thirdparty\\gl3w\\include\" \"/MDd\" \"/nologo\" \"/showIncludes\" \"/utf-8\" \"/W2\" \"/Od\" \"/Zi\" \"/Fdwinyl.exe.p\\thirdparty_gl3w_src_gl3w.c.pdb\" /Fowinyl.exe.p/thirdparty_gl3w_src_gl3w.c.obj \"/c\" ../thirdparty/gl3w/src/gl3w.c",
-    "file": "../thirdparty/gl3w/src/gl3w.c",
-    "output": "winyl.exe.p/thirdparty_gl3w_src_gl3w.c.obj"
-  }
+{
+  "directory": "D:/aura/winyl/build",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\RGFW /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 -WX /FoCMakeFiles\\winyl.dir\\src\\winyl.cpp.obj /FdCMakeFiles\\winyl.dir\\ /FS -c D:\\aura\\winyl\\src\\winyl.cpp",
+  "file": "D:\\aura\\winyl\\src\\winyl.cpp",
+  "output": "CMakeFiles\\winyl.dir\\src\\winyl.cpp.obj"
+}
 ]
