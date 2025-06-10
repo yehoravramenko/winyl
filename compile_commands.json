@@ -1,7 +1,37 @@
 [
 {
   "directory": "D:/aura/winyl/build",
-  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\RGFW /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 -WX /FoCMakeFiles\\winyl.dir\\src\\winyl.cpp.obj /FdCMakeFiles\\winyl.dir\\ /FS -c D:\\aura\\winyl\\src\\winyl.cpp",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /FoCMakeFiles\\imgui.dir\\thirdparty\\imgui\\backends\\imgui_impl_opengl3.cpp.obj /FdCMakeFiles\\imgui.dir\\imgui.pdb /FS -c D:\\aura\\winyl\\thirdparty\\imgui\\backends\\imgui_impl_opengl3.cpp",
+  "file": "D:\\aura\\winyl\\thirdparty\\imgui\\backends\\imgui_impl_opengl3.cpp",
+  "output": "CMakeFiles\\imgui.dir\\thirdparty\\imgui\\backends\\imgui_impl_opengl3.cpp.obj"
+},
+{
+  "directory": "D:/aura/winyl/build",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /FoCMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui.cpp.obj /FdCMakeFiles\\imgui.dir\\imgui.pdb /FS -c D:\\aura\\winyl\\thirdparty\\imgui\\imgui.cpp",
+  "file": "D:\\aura\\winyl\\thirdparty\\imgui\\imgui.cpp",
+  "output": "CMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui.cpp.obj"
+},
+{
+  "directory": "D:/aura/winyl/build",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /FoCMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui_draw.cpp.obj /FdCMakeFiles\\imgui.dir\\imgui.pdb /FS -c D:\\aura\\winyl\\thirdparty\\imgui\\imgui_draw.cpp",
+  "file": "D:\\aura\\winyl\\thirdparty\\imgui\\imgui_draw.cpp",
+  "output": "CMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui_draw.cpp.obj"
+},
+{
+  "directory": "D:/aura/winyl/build",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /FoCMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui_tables.cpp.obj /FdCMakeFiles\\imgui.dir\\imgui.pdb /FS -c D:\\aura\\winyl\\thirdparty\\imgui\\imgui_tables.cpp",
+  "file": "D:\\aura\\winyl\\thirdparty\\imgui\\imgui_tables.cpp",
+  "output": "CMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui_tables.cpp.obj"
+},
+{
+  "directory": "D:/aura/winyl/build",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 /FoCMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui_widgets.cpp.obj /FdCMakeFiles\\imgui.dir\\imgui.pdb /FS -c D:\\aura\\winyl\\thirdparty\\imgui\\imgui_widgets.cpp",
+  "file": "D:\\aura\\winyl\\thirdparty\\imgui\\imgui_widgets.cpp",
+  "output": "CMakeFiles\\imgui.dir\\thirdparty\\imgui\\imgui_widgets.cpp.obj"
+},
+{
+  "directory": "D:/aura/winyl/build",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\RGFW -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\winyl.dir\\src\\winyl.cpp.obj /FdCMakeFiles\\winyl.dir\\ /FS -c D:\\aura\\winyl\\src\\winyl.cpp",
   "file": "D:\\aura\\winyl\\src\\winyl.cpp",
   "output": "CMakeFiles\\winyl.dir\\src\\winyl.cpp.obj"
 }
