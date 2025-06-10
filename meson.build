@@ -16,7 +16,12 @@ imgui_lib = static_library('imgui', imgui_sources,
   include_directories: include_directories('thirdparty/imgui')
 )
 
+x11_dep = dependency('x11', required: true)
+gl_dep = dependency('GL', required: true)
+xrandr_dep = dependency('xrandr', required: true)
+
 executable('winyl', sources,
   include_directories: include_directories(includes),
+  dependencies: [x11_dep, gl_dep, xrandr_dep],
   link_with: [imgui_lib]
 )
