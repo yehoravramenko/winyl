@@ -44,14 +44,15 @@ int main(int, char **)
 
   glClearColor(OPENGL_CLEAR_COLOR.x, OPENGL_CLEAR_COLOR.y, OPENGL_CLEAR_COLOR.z,
                OPENGL_CLEAR_COLOR.w);
-  glViewport(0, 0, win->r.w * monitor.pixelRatio,
-             win->r.h * monitor.pixelRatio);
+  glViewport(0, 0, static_cast<GLsizei>(win->r.w * monitor.pixelRatio),
+             static_cast<GLsizei>(win->r.h * monitor.pixelRatio));
 
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
 
-  ImGuiIO &io                = ImGui::GetIO();
-  io.DisplaySize             = ImVec2(win->r.w, win->r.h);
+  ImGuiIO &io = ImGui::GetIO();
+  io.DisplaySize =
+      ImVec2(static_cast<float>(win->r.w), static_cast<float>(win->r.h));
   io.DisplayFramebufferScale = ImVec2(monitor.scaleX, monitor.scaleY);
   io.Fonts->GetTexDataAsRGBA32(&tex_pixels, &tex_w, &tex_h);
   io.IniFilename = "";
@@ -65,7 +66,11 @@ int main(int, char **)
 
     imgui_new_frame();
 
-    // ImGui::Begin("Hello!");
+    ImGui::Begin("Hello!");
+
+    ImGui::Text("Winyl!");
+
+    ImGui::End();
 
     glClear(GL_COLOR_BUFFER_BIT);
     imgui_render();

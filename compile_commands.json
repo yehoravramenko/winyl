@@ -31,7 +31,7 @@
 },
 {
   "directory": "D:/aura/winyl/build",
-  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\RGFW -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 /FoCMakeFiles\\winyl.dir\\src\\winyl.cpp.obj /FdCMakeFiles\\winyl.dir\\ /FS -c D:\\aura\\winyl\\src\\winyl.cpp",
+  "command": "C:\\PROGRA~2\\MICROS~2\\2022\\BUILDT~1\\VC\\Tools\\MSVC\\1444~1.352\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -ID:\\aura\\winyl\\thirdparty\\RGFW -ID:\\aura\\winyl\\thirdparty\\imgui /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17 -WX /FoCMakeFiles\\winyl.dir\\src\\winyl.cpp.obj /FdCMakeFiles\\winyl.dir\\ /FS -c D:\\aura\\winyl\\src\\winyl.cpp",
   "file": "D:\\aura\\winyl\\src\\winyl.cpp",
   "output": "CMakeFiles\\winyl.dir\\src\\winyl.cpp.obj"
 }

@@ -21,7 +21,7 @@ add_executable(winyl ${sources})
 target_link_libraries(winyl imgui)
 
 set_property(TARGET winyl PROPERTY CXX_STANDARD 17)
-# set_property(TARGET winyl PROPERTY COMPILE_WARNING_AS_ERROR ON)
+set_property(TARGET winyl PROPERTY COMPILE_WARNING_AS_ERROR ON)
 
 target_include_directories(winyl PRIVATE ${includes})
 
