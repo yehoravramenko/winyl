@@ -19,6 +19,7 @@ int main(int, char **)
 {
   RGFW_window *win;
   RGFW_monitor monitor;
+  // For font atlas
   unsigned char *tex_pixels;
   int tex_w, tex_h;
 
@@ -66,12 +67,16 @@ int main(int, char **)
 
     imgui_new_frame();
 
-    ImGui::Begin("Hello!");
+    ImGui::SetNextWindowPos(ImVec2(0,0));
+    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::Begin("Hello!", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
 
     ImGui::Text("Winyl!");
 
     ImGui::End();
-
+    ImGui::PopStyleVar();
+    
     glClear(GL_COLOR_BUFFER_BIT);
     imgui_render();
     RGFW_window_swapBuffers(win);
