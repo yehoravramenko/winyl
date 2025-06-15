@@ -1,0 +1,9 @@
+[submodule "thirdparty/RGFW"]
+	path = thirdparty/RGFW
+	url = https://github.com/yehoravramenko/RGFW
+[submodule "thirdparty/imgui"]
+	path = thirdparty/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "thirdparty/imgui_imp_rgfw.h"]
+	path = thirdparty/imgui_imp_rgfw.h
+	url = https://github.com/ColleagueRiley/imgui_imp_rgfw.h.git

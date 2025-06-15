@@ -31,7 +31,7 @@
   },
   {
     "directory": "D:\\aura\\winyl\\build",
-    "command": "\"cl\" \"-Iwinyl.exe.p\" \"-I.\" \"-I..\" \"-I..\\thirdparty\\RGFW\" \"-I..\\thirdparty\\imgui\" \"/MDd\" \"/nologo\" \"/showIncludes\" \"/utf-8\" \"/Zc:__cplusplus\" \"/W4\" \"/WX\" \"/EHsc\" \"/std:c++17\" \"/permissive-\" \"/Od\" \"/Zi\" \"/Fdwinyl.exe.p\\src_winyl.cpp.pdb\" /Fowinyl.exe.p/src_winyl.cpp.obj \"/c\" ../src/winyl.cpp",
+    "command": "\"cl\" \"-Iwinyl.exe.p\" \"-I.\" \"-I..\" \"-I..\\thirdparty\\RGFW\" \"-I..\\thirdparty\\imgui\" \"-I..\\thirdparty\\imgui_imp_rgfw.h\" \"/MDd\" \"/nologo\" \"/showIncludes\" \"/utf-8\" \"/Zc:__cplusplus\" \"/W4\" \"/WX\" \"/EHsc\" \"/std:c++17\" \"/permissive-\" \"/Od\" \"/Zi\" \"/Fdwinyl.exe.p\\src_winyl.cpp.pdb\" /Fowinyl.exe.p/src_winyl.cpp.obj \"/c\" ../src/winyl.cpp",
     "file": "../src/winyl.cpp",
     "output": "winyl.exe.p/src_winyl.cpp.obj"
   }
