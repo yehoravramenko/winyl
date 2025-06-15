@@ -1,0 +1,3 @@
+#define IDI_SYSTRAY  101
+#define IDR_TRAYMENU 102
+#define ID_TRAY_EXIT 103

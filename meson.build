@@ -1,7 +1,7 @@
 project(
   'Winyl',
   'cpp',
-  default_options: ['cpp_std=c++17', 'warning_level=3', 'werror=true'],
+  default_options: ['cpp_std=c++20', 'warning_level=3', 'werror=true'],
 )
 
 includes = ['thirdparty/RGFW', 'thirdparty/imgui', 'thirdparty/imgui_imp_rgfw.h']
@@ -25,15 +25,14 @@ os = build_machine.system()
 deps = []
 
 if os == 'linux'
-  x11_dep = dependency('x11', required: true)
-  gl_dep = dependency('GL', required: true)
-  xrandr_dep = dependency('xrandr', required: true)
-  deps = [x11_dep, gl_dep, xrandr_dep]
+  error('Winyl currently is Windows-only')
+  # x11_dep = dependency('x11', required: true)
+  # gl_dep = dependency('GL', required: true)
+  # xrandr_dep = dependency('xrandr', required: true)
+  # deps = [x11_dep, gl_dep, xrandr_dep]
 elif os == 'windows'
-  # currently nothing to do.
-  # ogl_dep = dependency('opengl32', required: true)
-  # gdi_dep = dependency('gdi32', required: true)
-  # deps = [ogl_dep, gdi_dep]
+  windows = import('windows')
+  sources += windows.compile_resources('src/resources.rc')
 else
   error('This operating system is unsupported')
 endif

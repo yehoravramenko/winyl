@@ -1,0 +1,12 @@
+#include "resource.h"
+#include <windows.h>
+
+IDI_SYSTRAY   ICON    "res/winyl.ico"
+
+IDR_TRAYMENU MENU
+BEGIN
+    POPUP "Menu"
+    BEGIN
+        MENUITEM "E&xit", ID_TRAY_EXIT
+    END
+END
