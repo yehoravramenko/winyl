@@ -4,13 +4,12 @@
 #define RGFW_IMPLEMENTATION
 #define RGFW_IMGUI_IMPLEMENTATION
 #include "imgui_impl_rgfw.h"
-
 #include "backends/imgui_impl_opengl3.h"
 
 #include <string_view>
 
 #include <shellapi.h>
-#include "resource.h"
+#include "../res/resource.h"
 
 namespace winyl
 {
@@ -108,8 +107,8 @@ int main(int, char **)
 
   instance_handle = GetModuleHandle(nullptr);
 
-  ::RGFW_setGLHint(RGFW_glMajor, 4);
-  ::RGFW_setGLHint(RGFW_glMinor, 6);
+  ::RGFW_setGLHint(RGFW_glMajor, 3);
+  ::RGFW_setGLHint(RGFW_glMinor, 3);
   ::RGFW_setGLHint(RGFW_glProfile, RGFW_glCore);
 
   app_window =

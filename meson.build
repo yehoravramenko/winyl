@@ -4,9 +4,15 @@ project(
   default_options: ['cpp_std=c++20', 'warning_level=3', 'werror=true'],
 )
 
-includes = ['thirdparty/RGFW', 'thirdparty/imgui', 'thirdparty/imgui_imp_rgfw.h']
+includes = [
+  'thirdparty/RGFW',
+  'thirdparty/imgui',
+  'thirdparty/imgui_imp_rgfw.h',
+]
 
-sources = ['src/winyl.cpp']
+sources = [
+  'src/winyl.cpp',
+]
 
 imgui_sources = [
   'thirdparty/imgui/imgui.cpp',
@@ -32,7 +38,7 @@ if os == 'linux'
   # deps = [x11_dep, gl_dep, xrandr_dep]
 elif os == 'windows'
   windows = import('windows')
-  sources += windows.compile_resources('src/resources.rc')
+  sources += windows.compile_resources('res/resources.rc')
 else
   error('This operating system is unsupported')
 endif

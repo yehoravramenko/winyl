@@ -1,7 +1,7 @@
 #include "resource.h"
 #include <windows.h>
 
-IDI_SYSTRAY   ICON    "res/winyl.ico"
+IDI_SYSTRAY   ICON    "winyl.ico"
 
 IDR_TRAYMENU MENU
 BEGIN
