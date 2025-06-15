@@ -19,9 +19,7 @@ int main(int, char **)
 {
   RGFW_window *win;
   RGFW_monitor monitor;
-  // For font atlas
-  unsigned char *tex_pixels;
-  int tex_w, tex_h;
+  ImFont *segoeui;
 
   RGFW_setGLHint(RGFW_glMajor, 4);
   RGFW_setGLHint(RGFW_glMinor, 6);
@@ -55,8 +53,10 @@ int main(int, char **)
   io.DisplaySize =
       ImVec2(static_cast<float>(win->r.w), static_cast<float>(win->r.h));
   io.DisplayFramebufferScale = ImVec2(monitor.scaleX, monitor.scaleY);
-  io.Fonts->GetTexDataAsRGBA32(&tex_pixels, &tex_w, &tex_h);
-  io.IniFilename = "";
+  io.IniFilename             = "";
+  segoeui =
+      io.Fonts->AddFontFromFileTTF("C:\\WINDOWS\\FONTS\\SEGOEUI.TTF", 18.0f,
+                                   nullptr, io.Fonts->GetGlyphRangesDefault());
 
   ImGui_ImplRgfw_InitForOpenGL(win, true);
   ImGui_ImplOpenGL3_Init();
@@ -67,16 +67,20 @@ int main(int, char **)
 
     imgui_new_frame();
 
-    ImGui::SetNextWindowPos(ImVec2(0,0));
+    ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(io.DisplaySize);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::Begin("Hello!", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+    ImGui::PushFont(segoeui);
+    ImGui::Begin("Hello!", nullptr,
+                 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+                     ImGuiWindowFlags_NoMove);
 
     ImGui::Text("Winyl!");
 
     ImGui::End();
+    ImGui::PopFont();
     ImGui::PopStyleVar();
-    
+
     glClear(GL_COLOR_BUFFER_BIT);
     imgui_render();
     RGFW_window_swapBuffers(win);
