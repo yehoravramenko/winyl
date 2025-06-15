@@ -1,7 +1,10 @@
-project('Winyl', 'cpp', 
-        default_options: ['cpp_std=c++17', 'warning_level=3', 'werror=true'])
+project(
+  'Winyl',
+  'cpp',
+  default_options: ['cpp_std=c++17', 'warning_level=3', 'werror=true'],
+)
 
-includes = ['thirdparty/RGFW', 'thirdparty/imgui']
+includes = ['thirdparty/RGFW', 'thirdparty/imgui', 'thirdparty/imgui_imp_rgfw.h']
 
 sources = ['src/winyl.cpp']
 
@@ -12,8 +15,10 @@ imgui_sources = [
   'thirdparty/imgui/imgui_tables.cpp',
   'thirdparty/imgui/backends/imgui_impl_opengl3.cpp',
 ]
-imgui_lib = static_library('imgui', imgui_sources,
-  include_directories: include_directories('thirdparty/imgui')
+imgui_lib = static_library(
+  'imgui',
+  imgui_sources,
+  include_directories: include_directories('thirdparty/imgui'),
 )
 
 os = build_machine.system()
@@ -25,15 +30,18 @@ if os == 'linux'
   xrandr_dep = dependency('xrandr', required: true)
   deps = [x11_dep, gl_dep, xrandr_dep]
 elif os == 'windows'
-    ogl_dep = dependency('opengl32', required: true)
-    gdi_dep = dependency('gdi32', required: true)
-    deps = [ogl_dep, gdi_dep]
+  # currently nothing to do.
+  # ogl_dep = dependency('opengl32', required: true)
+  # gdi_dep = dependency('gdi32', required: true)
+  # deps = [ogl_dep, gdi_dep]
 else
   error('This operating system is unsupported')
 endif
 
-executable('winyl', sources,
+executable(
+  'winyl',
+  sources,
   include_directories: include_directories(includes),
   dependencies: [deps],
-  link_with: [imgui_lib]
+  link_with: [imgui_lib],
 )
