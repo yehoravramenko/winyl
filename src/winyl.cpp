@@ -6,11 +6,12 @@
 #include "imgui_impl_rgfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
-#include <string_view>
 #include <stdio.h>
 
 #include <shellapi.h>
 #include "../res/resource.h"
+
+#include "inter.hpp"
 
 namespace winyl
 {
@@ -41,7 +42,6 @@ void imgui_shutdown()
 } // namespace winyl
 
 constexpr ImVec4 OPENGL_CLEAR_COLOR{0.094f, 0.094f, 0.094f, 1.0f};
-constexpr std::string_view APP_FONT    = "C:\\WINDOWS\\FONTS\\SEGOEUI.TTF";
 constexpr unsigned int WM_APPTRAY_ICON = 102;
 
 HINSTANCE instance_handle = nullptr;
@@ -95,7 +95,7 @@ int main(int, char **)
   HANDLE mutex_instance;
 
   RGFW_monitor monitor;
-  ImFont *segoeui;
+  ImFont *inter;
 
   HWND dummy_hwnd;
   NOTIFYICONDATA nidata;
@@ -142,8 +142,9 @@ int main(int, char **)
                                       static_cast<float>(app_window->r.h));
   io.DisplayFramebufferScale = ImVec2(monitor.scaleX, monitor.scaleY);
   io.IniFilename             = "";
-  segoeui = io.Fonts->AddFontFromFileTTF(APP_FONT.data(), 18.0f, nullptr,
-                                         io.Fonts->GetGlyphRangesDefault());
+
+  inter = io.Fonts->AddFontFromMemoryCompressedTTF(Inter_compressed_data,
+                                                   Inter_compressed_size);
 
   ImGui_ImplRgfw_InitForOpenGL(app_window, true);
   ImGui_ImplOpenGL3_Init();
@@ -169,16 +170,16 @@ int main(int, char **)
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(io.DisplaySize);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::PushFont(segoeui);
     ImGui::Begin("Winyl", nullptr,
                  ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
                      ImGuiWindowFlags_NoMove);
+    ImGui::PopStyleVar();
 
+    ImGui::PushFont(inter, 32.0f);
     ImGui::Text("Winyl!");
+    ImGui::PopFont();
 
     ImGui::End();
-    ImGui::PopFont();
-    ImGui::PopStyleVar();
 
     glClear(GL_COLOR_BUFFER_BIT);
     winyl::imgui_render();
