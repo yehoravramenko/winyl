@@ -61,8 +61,8 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
       POINT cursor_pos;
 
       GetCursorPos(&cursor_pos);
-      tray_menu    = ::LoadMenu(instance_handle, MAKEINTRESOURCE(IDR_TRAYMENU));
-      tray_submenu = ::GetSubMenu(tray_menu, 0);
+      tray_menu    = LoadMenu(instance_handle, MAKEINTRESOURCE(IDR_TRAYMENU));
+      tray_submenu = GetSubMenu(tray_menu, 0);
 
       SetForegroundWindow(hwnd);
       TrackPopupMenu(tray_submenu,
@@ -125,7 +125,7 @@ int main(int, char **)
   }
 
 #ifndef NDEBUG
-  auto gl_version = ::glGetString(GL_VERSION);
+  auto gl_version = glGetString(GL_VERSION);
   printf("%s\n", gl_version);
 #endif
 
@@ -156,7 +156,7 @@ int main(int, char **)
   nidata.hWnd   = dummy_hwnd;
   nidata.uID    = IDI_SYSTRAY;
   nidata.uFlags = NIF_ICON | NIF_MESSAGE;
-  nidata.hIcon  = ::LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_SYSTRAY));
+  nidata.hIcon  = LoadIcon(instance_handle, MAKEINTRESOURCE(IDI_SYSTRAY));
   nidata.uCallbackMessage = WM_APPTRAY_ICON;
   Shell_NotifyIcon(NIM_ADD, &nidata);
 
