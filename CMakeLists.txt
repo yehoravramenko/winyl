@@ -1,6 +1,5 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 project(Winyl)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # file(GLOB_RESOURCE sources src/*.cpp src/*.c)
