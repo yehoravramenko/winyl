@@ -21,12 +21,18 @@ int main(int, char **)
   RGFW_monitor monitor;
   ImFont *segoeui;
 
+  constexpr ImGuiWindowFlags IMGUI_WINDOW_FLAGS =
+      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove;
+
+  constexpr RGFW_windowFlags RGFW_WINDOW_FLAGS =
+      RGFW_windowCenter | RGFW_windowNoResize;
+
   RGFW_setGLHint(RGFW_glMajor, 4);
   RGFW_setGLHint(RGFW_glMinor, 6);
   RGFW_setGLHint(RGFW_glProfile, RGFW_glCore);
 
   win = RGFW_createWindow("winyl (Milestone 2)", RGFW_RECT(0, 0, 400, 500),
-                          RGFW_windowCenter | RGFW_windowNoResize);
+                          RGFW_WINDOW_FLAGS);
   RGFW_window_makeCurrent(win);
   monitor = RGFW_window_getMonitor(win);
 
@@ -55,8 +61,7 @@ int main(int, char **)
   io.DisplayFramebufferScale = ImVec2(monitor.scaleX, monitor.scaleY);
   io.IniFilename             = "";
   segoeui =
-      io.Fonts->AddFontFromFileTTF("C:\\WINDOWS\\FONTS\\SEGOEUI.TTF", 18.0f,
-                                   nullptr, io.Fonts->GetGlyphRangesDefault());
+      io.Fonts->AddFontFromFileTTF("C:\\WINDOWS\\FONTS\\SEGOEUI.TTF", 18.0f);
 
   ImGui_ImplRgfw_InitForOpenGL(win, true);
   ImGui_ImplOpenGL3_Init();
@@ -70,10 +75,8 @@ int main(int, char **)
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(io.DisplaySize);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::PushFont(segoeui);
-    ImGui::Begin("Hello!", nullptr,
-                 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
-                     ImGuiWindowFlags_NoMove);
+    ImGui::PushFont(segoeui, 32.0f);
+    ImGui::Begin("Hello!", nullptr, IMGUI_WINDOW_FLAGS);
 
     ImGui::Text("Winyl!");
 

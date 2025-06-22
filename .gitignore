@@ -56,3 +56,4 @@ build/*
 *.7z
 *.rar
 .cache/*
+compile_commands.json

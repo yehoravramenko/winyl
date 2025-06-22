@@ -4,7 +4,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # file(GLOB_RESOURCE sources src/*.cpp src/*.c)
 file(GLOB sources src/winyl.cpp)
-set(includes thirdparty/RGFW thirdparty/imgui)
+set(includes thirdparty/RGFW thirdparty/imgui thirdparty/imgui_imp_rgfw.h)
 
 file(GLOB imgui_sources 
     thirdparty/imgui/imgui.cpp 
