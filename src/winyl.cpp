@@ -1,5 +1,3 @@
-#include <filesystem>
-#include <iostream>
 #define _CRT_SECURE_NO_WARNINGS
 
 #ifndef NDEBUG
@@ -14,26 +12,24 @@
 #include <print>
 #include <string>
 #include <fstream>
+#include <filesystem>
+#include <iostream>
 
 #include <shlwapi.h>
 
-namespace winyl
+#include "station.hpp"
+
+namespace Winyl
 {
 
-struct station
-{
-  std::string name;
-  std::string url;
-};
-
-void imgui_new_frame()
+void ImguiNewFrame()
 {
   ImGui::NewFrame();
   ImGui_ImplRgfw_NewFrame();
   ImGui_ImplOpenGL3_NewFrame();
 }
 
-void imgui_render()
+void ImguiRender()
 {
   ImGui::Render();
 
@@ -42,7 +38,7 @@ void imgui_render()
   ImGui_ImplOpenGL3_RenderDrawData(dd);
 }
 
-void imgui_shutdown()
+void ImguiShutdown()
 {
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplRgfw_Shutdown();
@@ -51,33 +47,32 @@ void imgui_shutdown()
 
 constexpr int MAX_BUF_SIZE = 256;
 
-std::vector<winyl::station> get_stations()
+std::vector<Winyl::Station> getStations()
 {
   char path_buf[MAX_PATH];
-  std::string cfg_path{};
+  std::string cfgPath{};
   std::fstream cfg{};
-  std::vector<winyl::station> stations{};
+  std::vector<Winyl::Station> stations{};
 
   GetModuleFileName(nullptr, path_buf, MAX_PATH);
   PathRemoveFileSpec(path_buf);
-  cfg_path = path_buf;
-  cfg_path += "\\winyl.cfg";
+  cfgPath = path_buf;
+  cfgPath += "\\Winyl.cfg";
 
-  if (!std::filesystem::exists(cfg_path))
+  if (!std::filesystem::exists(cfgPath))
   {
-    cfg.open(cfg_path, std::fstream::out | std::fstream::trunc);
+    cfg.open(cfgPath, std::fstream::out | std::fstream::trunc);
     cfg << "#Lofi Hunter" << std::endl;
     cfg << "https://live.hunter.fm/lofi_high" << std::endl;
     cfg.close();
   }
 
-  cfg.open(cfg_path, std::fstream::in);
+  cfg.open(cfgPath, std::fstream::in);
 
-  // for (std::string line; std::getline(cfg, line).good();)
   while (true)
   {
     std::string line{};
-    winyl::station s{};
+    Winyl::Station s{};
 
     std::getline(cfg, line);
     if (line == "")
@@ -90,7 +85,7 @@ std::vector<winyl::station> get_stations()
       std::cerr << "\"#\" expected in the start of the line" << std::endl;
       std::exit(1);
     }
-    s.name = line.erase(0, 1);
+    s.Name = line.erase(0, 1);
 
     std::getline(cfg, line);
     if (line == "")
@@ -104,7 +99,7 @@ std::vector<winyl::station> get_stations()
       std::exit(1);
     }
 
-    s.url = line;
+    s.Url = line;
     stations.push_back(s);
   }
 
@@ -115,7 +110,7 @@ std::vector<winyl::station> get_stations()
   return stations;
 }
 
-} // namespace winyl
+} // namespace Winyl
 
 constexpr ImVec4 OPENGL_CLEAR_COLOR{0.094f, 0.094f, 0.094f, 1.0f};
 
@@ -124,7 +119,7 @@ int main(int, char **)
   RGFW_window *win;
   RGFW_monitor monitor;
   ImFont *segoeui;
-  std::vector<winyl::station> stations{0};
+  std::vector<Winyl::Station> stations{0};
 
   constexpr ImGuiWindowFlags IMGUI_WINDOW_FLAGS =
       ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove;
@@ -136,7 +131,7 @@ int main(int, char **)
   RGFW_setGLHint(RGFW_glMinor, 6);
   RGFW_setGLHint(RGFW_glProfile, RGFW_glCore);
 
-  win = RGFW_createWindow("winyl (Milestone 3)", RGFW_RECT(0, 0, 400, 500),
+  win = RGFW_createWindow("Winyl (Milestone 3)", RGFW_RECT(0, 0, 400, 500),
                           RGFW_WINDOW_FLAGS);
   RGFW_window_makeCurrent(win);
   monitor = RGFW_window_getMonitor(win);
@@ -171,13 +166,13 @@ int main(int, char **)
   ImGui_ImplRgfw_InitForOpenGL(win, true);
   ImGui_ImplOpenGL3_Init();
 
-  stations = winyl::get_stations();
+  stations = Winyl::getStations();
 
   while (RGFW_window_shouldClose(win) == RGFW_FALSE)
   {
     RGFW_window_checkEvents(win, RGFW_eventNoWait);
 
-    winyl::imgui_new_frame();
+    Winyl::ImguiNewFrame();
 
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(io.DisplaySize);
@@ -190,20 +185,25 @@ int main(int, char **)
 
     ImGui::PushFont(segoeui, 18.0f);
     int i = 0;
-    for (const winyl::station &s : stations)
+    for (Winyl::Station &s : stations)
     {
       ImGui::PushID(i++);
-      if (ImGui::CollapsingHeader(s.name.c_str()))
+      if (ImGui::CollapsingHeader(s.Name.c_str()))
       {
-        static char buffer[winyl::MAX_BUF_SIZE]{};
+        static char buffer[Winyl::MAX_BUF_SIZE]{};
 
-        std::memset(buffer, '\0', winyl::MAX_BUF_SIZE);
-        s.url.copy(buffer, winyl::MAX_BUF_SIZE - 1);
+        std::memset(buffer, '\0', Winyl::MAX_BUF_SIZE);
+        s.Url.copy(buffer, Winyl::MAX_BUF_SIZE - 1);
 
-        ImGui::AlignTextToFramePadding();
-        ImGui::Text("URL");
-        ImGui::SameLine();
-        ImGui::InputText("##station_url", buffer, winyl::MAX_BUF_SIZE);
+        ImGui::BeginGroup();
+        /**/ ImGui::AlignTextToFramePadding();
+        /**/ ImGui::Text("URL");
+        /**/ ImGui::SameLine();
+        /**/ ImGui::InputText("##station_url", buffer, Winyl::MAX_BUF_SIZE);
+        /**/ ImGui::SameLine();
+        if (ImGui::Button("Play"))
+          s.ChangeState();
+        ImGui::EndGroup();
       }
       ImGui::PopID();
     }
@@ -213,11 +213,11 @@ int main(int, char **)
     ImGui::PopStyleVar();
 
     glClear(GL_COLOR_BUFFER_BIT);
-    winyl::imgui_render();
+    Winyl::ImguiRender();
     RGFW_window_swapBuffers(win);
   }
 
-  winyl::imgui_shutdown();
+  Winyl::ImguiShutdown();
   RGFW_window_close(win);
 
   return 0;
