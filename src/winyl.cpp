@@ -1,11 +1,13 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #ifndef NDEBUG
 #define RGFW_DEBUG
 #endif
-#define RGFW_IMPLEMENTATION
+
+#define RGFW_NO_INFO
 #define RGFW_IMGUI_IMPLEMENTATION
 #include "imgui_impl_rgfw.h"
+
+#define RGFW_IMPLEMENTATION
+#include "winyl.hpp"
 
 #include "backends/imgui_impl_opengl3.h"
 
@@ -22,124 +24,21 @@
 namespace Winyl
 {
 
-void ImguiNewFrame()
+App::App(const std::string &title)
 {
-  ImGui::NewFrame();
-  ImGui_ImplRgfw_NewFrame();
-  ImGui_ImplOpenGL3_NewFrame();
-}
-
-void ImguiRender()
-{
-  ImGui::Render();
-
-  ImDrawData *dd = ImGui::GetDrawData();
-
-  ImGui_ImplOpenGL3_RenderDrawData(dd);
-}
-
-void ImguiShutdown()
-{
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplRgfw_Shutdown();
-  ImGui::DestroyContext();
-}
-
-constexpr int MAX_BUF_SIZE = 256;
-
-std::vector<Winyl::Station> getStations()
-{
-  char path_buf[MAX_PATH];
-  std::string cfgPath{};
-  std::fstream cfg{};
-  std::vector<Winyl::Station> stations{};
-
-  GetModuleFileName(nullptr, path_buf, MAX_PATH);
-  PathRemoveFileSpec(path_buf);
-  cfgPath = path_buf;
-  cfgPath += "\\Winyl.cfg";
-
-  if (!std::filesystem::exists(cfgPath))
-  {
-    cfg.open(cfgPath, std::fstream::out | std::fstream::trunc);
-    cfg << "#Lofi Hunter" << std::endl;
-    cfg << "https://live.hunter.fm/lofi_high" << std::endl;
-    cfg.close();
-  }
-
-  cfg.open(cfgPath, std::fstream::in);
-
-  while (true)
-  {
-    std::string line{};
-    Winyl::Station s{};
-
-    std::getline(cfg, line);
-    if (line == "")
-    {
-      break;
-    }
-
-    if (!line.starts_with('#'))
-    {
-      std::cerr << "\"#\" expected in the start of the line" << std::endl;
-      std::exit(1);
-    }
-    s.Name = line.erase(0, 1);
-
-    std::getline(cfg, line);
-    if (line == "")
-    {
-      std::cerr << "URL expected" << std::endl;
-      std::exit(1);
-    }
-    else if (line.size() > MAX_BUF_SIZE)
-    {
-      std::cerr << "URL has more than 256 characters" << std::endl;
-      std::exit(1);
-    }
-
-    s.Url = line;
-    stations.push_back(s);
-  }
-
-  cfg.close();
-
-  std::println("{}", stations.size());
-
-  return stations;
-}
-
-} // namespace Winyl
-
-constexpr ImVec4 OPENGL_CLEAR_COLOR{0.094f, 0.094f, 0.094f, 1.0f};
-
-int main(int, char **)
-{
-  RGFW_window *win;
-  RGFW_monitor monitor;
-  ImFont *segoeui;
-  std::vector<Winyl::Station> stations{0};
-
-  constexpr ImGuiWindowFlags IMGUI_WINDOW_FLAGS =
-      ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove;
-
-  constexpr RGFW_windowFlags RGFW_WINDOW_FLAGS =
-      RGFW_windowCenter | RGFW_windowNoResize;
-
   RGFW_setGLHint(RGFW_glMajor, 4);
   RGFW_setGLHint(RGFW_glMinor, 6);
   RGFW_setGLHint(RGFW_glProfile, RGFW_glCore);
 
-  win = RGFW_createWindow("Winyl (Milestone 3)", RGFW_RECT(0, 0, 400, 500),
-                          RGFW_WINDOW_FLAGS);
-  RGFW_window_makeCurrent(win);
-  monitor = RGFW_window_getMonitor(win);
+  this->window = RGFW_createWindow(title.data(), RGFW_RECT(0, 0, 400, 500),
+                                   this->rgfwWindowFlags);
+  RGFW_window_makeCurrent(this->window);
+  this->monitor = RGFW_window_getMonitor(this->window);
 
-  if (win == nullptr)
+  if (this->window == nullptr)
   {
     std::println("Failed to create a window");
-    return 1;
+    // TODO: error
   }
 
 #ifndef NDEBUG
@@ -147,59 +46,68 @@ int main(int, char **)
   printf("%s\n", gl_version);
 #endif
 
-  glClearColor(OPENGL_CLEAR_COLOR.x, OPENGL_CLEAR_COLOR.y, OPENGL_CLEAR_COLOR.z,
-               OPENGL_CLEAR_COLOR.w);
-  glViewport(0, 0, static_cast<GLsizei>(win->r.w * monitor.pixelRatio),
-             static_cast<GLsizei>(win->r.h * monitor.pixelRatio));
+  this->stations = this->getStations();
+}
+
+void App::Run()
+{
+  glClearColor(this->openGLClearColor.x, this->openGLClearColor.y,
+               this->openGLClearColor.z, this->openGLClearColor.w);
+  glViewport(
+      0, 0, static_cast<GLsizei>(this->window->r.w * this->monitor.pixelRatio),
+      static_cast<GLsizei>(this->window->r.h * this->monitor.pixelRatio));
 
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
 
-  ImGuiIO &io = ImGui::GetIO();
-  io.DisplaySize =
-      ImVec2(static_cast<float>(win->r.w), static_cast<float>(win->r.h));
-  io.DisplayFramebufferScale = ImVec2(monitor.scaleX, monitor.scaleY);
-  io.IniFilename             = "";
-  segoeui =
-      io.Fonts->AddFontFromFileTTF("C:\\WINDOWS\\FONTS\\SEGOEUI.TTF", 18.0f);
+  ImGui::GetIO().DisplaySize = ImVec2(static_cast<float>(this->window->r.w),
+                                      static_cast<float>(this->window->r.h));
+  ImGui::GetIO().DisplayFramebufferScale =
+      ImVec2(this->monitor.scaleX, this->monitor.scaleY);
+  ImGui::GetIO().IniFilename = "";
+  mainFont                   = ImGui::GetIO().Fonts->AddFontFromFileTTF(
+      "C:\\WINDOWS\\FONTS\\SEGOEUI.TTF", 18.0f);
 
-  ImGui_ImplRgfw_InitForOpenGL(win, true);
+  ImGui_ImplRgfw_InitForOpenGL(this->window, true);
   ImGui_ImplOpenGL3_Init();
 
-  stations = Winyl::getStations();
-
-  while (RGFW_window_shouldClose(win) == RGFW_FALSE)
+  while (RGFW_window_shouldClose(this->window) == RGFW_FALSE)
   {
-    RGFW_window_checkEvents(win, RGFW_eventNoWait);
+    RGFW_window_checkEvents(this->window, RGFW_eventNoWait);
 
-    Winyl::ImguiNewFrame();
+    ImGui::NewFrame();
+    ImGui_ImplRgfw_NewFrame();
+    ImGui_ImplOpenGL3_NewFrame();
 
     ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(io.DisplaySize);
+    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    ImGui::Begin("MainWindow", nullptr, IMGUI_WINDOW_FLAGS);
+    ImGui::Begin("MainWindow", nullptr, this->imguiWindowFlags);
 
-    ImGui::PushFont(segoeui, 32.0f);
+    ImGui::PushFont(mainFont, 32.0f);
     ImGui::Text("Stations List");
     ImGui::PopFont();
 
-    ImGui::PushFont(segoeui, 18.0f);
+    ImGui::PushFont(mainFont, 18.0f);
+
     int i = 0;
+    // std::println("{}", this->stations[0].Name.c_str());
     for (Winyl::Station &s : stations)
     {
       ImGui::PushID(i++);
       if (ImGui::CollapsingHeader(s.Name.c_str()))
       {
-        static char buffer[Winyl::MAX_BUF_SIZE]{};
+        // std::println("got here");
+        static char buffer[MAX_PATH]{};
 
-        std::memset(buffer, '\0', Winyl::MAX_BUF_SIZE);
-        s.Url.copy(buffer, Winyl::MAX_BUF_SIZE - 1);
+        std::memset(buffer, '\0', MAX_PATH);
+        s.Url.copy(buffer, MAX_PATH - 1);
 
         ImGui::BeginGroup();
         /**/ ImGui::AlignTextToFramePadding();
         /**/ ImGui::Text("URL");
         /**/ ImGui::SameLine();
-        /**/ ImGui::InputText("##station_url", buffer, Winyl::MAX_BUF_SIZE);
+        /**/ ImGui::InputText("##station_url", buffer, MAX_PATH);
         /**/ ImGui::SameLine();
         if (ImGui::Button("Play"))
           s.ChangeState();
@@ -213,12 +121,76 @@ int main(int, char **)
     ImGui::PopStyleVar();
 
     glClear(GL_COLOR_BUFFER_BIT);
-    Winyl::ImguiRender();
-    RGFW_window_swapBuffers(win);
+
+    ImGui::Render();
+    this->dd = ImGui::GetDrawData();
+    ImGui_ImplOpenGL3_RenderDrawData(this->dd);
+
+    RGFW_window_swapBuffers(this->window);
+  }
+}
+
+App::~App()
+{
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplRgfw_Shutdown();
+  ImGui::DestroyContext();
+
+  RGFW_window_close(this->window);
+}
+
+std::vector<Winyl::Station> App::getStations()
+{
+  char pathBuffer[MAX_PATH];
+  std::string cfgPath{};
+  std::fstream cfg{};
+  std::vector<Winyl::Station> stations{};
+
+  GetModuleFileName(nullptr, pathBuffer, MAX_PATH);
+  PathRemoveFileSpec(pathBuffer);
+  cfgPath = pathBuffer;
+  cfgPath += "\\winyl.cfg";
+
+  // Fill with default data
+  if (!std::filesystem::exists(cfgPath))
+  {
+    cfg.open(cfgPath, std::fstream::out | std::fstream::trunc);
+    cfg << "#Lofi Hunter" << std::endl;
+    cfg << "https://live.hunter.fm/lofi_high" << std::endl;
+    cfg.close();
   }
 
-  Winyl::ImguiShutdown();
-  RGFW_window_close(win);
+  cfg.open(cfgPath, std::fstream::in);
+  for (std::string line{}; std::getline(cfg, line);)
+  {
+    Winyl::Station s{};
+    if (!line.starts_with('#'))
+    {
+      std::cerr << "\"#\" expected in the start of the line" << std::endl;
+      std::exit(1);
+    }
+    s.Name = line.erase(0, 1);
 
-  return 0;
+    std::getline(cfg, line);
+    if (line == "")
+    {
+      std::cerr << "URL expected" << std::endl;
+      std::exit(1);
+    }
+    else if (line.size() > MAX_PATH)
+    {
+      std::cerr << "URL has more than 260 characters" << std::endl;
+      std::exit(1);
+    }
+
+    s.Url = line;
+    stations.push_back(s);
+  }
+  cfg.close();
+
+  // TODO: Delete on release
+  std::println("{}", stations.size());
+
+  return stations;
 }
+} // namespace Winyl

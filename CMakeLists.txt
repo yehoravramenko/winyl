@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.15)
 project(Winyl)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# file(GLOB_RESOURCE sources src/*.cpp src/*.c)
-file(GLOB sources src/winyl.cpp src/station.cpp)
+file(GLOB sources 
+    src/main.cpp 
+    src/winyl.cpp 
+    src/station.cpp)
 set(includes thirdparty/RGFW thirdparty/imgui thirdparty/imgui_imp_rgfw.h)
 
 file(GLOB imgui_sources 
